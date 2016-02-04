@@ -59,7 +59,6 @@
     <!-- endbuild -->
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="css/app.css" />
-    <link rel="stylesheet" href="css/bootstrap-rtl.css" />
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/theme-a.css" />
     <link rel="stylesheet" href="css/theme-b.css" />
@@ -95,6 +94,9 @@
     <script src="bower_components/angular-ui-uploader/dist/uploader.js"></script>
     <script src="bower_components/angular-ui-utils/index.js"></script>
     <script src="bower_components/angularjs-toaster/toaster.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/angularfire/dist/angularfire.js"></script>
+    <script src="bower_components/mockfirebase/browser/mockfirebase.js"></script>
     <script src="bower_components/oclazyload/dist/ocLazyLoad.js"></script>
     <script src="bower_components/screenfull/dist/screenfull.js"></script>
     <script src="bower_components/slimScroll/jquery.slimscroll.min.js"></script>
@@ -219,6 +221,7 @@
     <script src="js/translate.module.js"></script>
     <script src="js/utils.module.js"></script>
     <!-- MODULES -->
+    <script src="modules/auth/login.controller.js"></script>
     <script src="modules/bootstrapui/alerts.controller.js"></script>
     <script src="modules/bootstrapui/bootstrapui.config.js"></script>
     <script src="modules/bootstrapui/buttons.controller.js"></script>
@@ -249,6 +252,7 @@
     <script src="modules/core/core.config.js"></script>
     <script src="modules/core/core.constants.js"></script>
     <script src="modules/core/core.run.js"></script>
+    <script src="modules/core/core.services.js"></script>
     <script src="modules/dashboard/dashboard.controller.js"></script>
     <script src="modules/dashboard/dashboard.v2.controller.js"></script>
     <script src="modules/dashboard/dashboard.v3.controller.js"></script>
@@ -269,7 +273,6 @@
     <script src="modules/extras/code-editor.controller.js"></script>
     <script src="modules/extras/todo.controller.js"></script>
     <script src="modules/extras/word-cloud.controller.js"></script>
-    <script src="modules/flatdoc/flatdoc.directive.js"></script>
     <script src="modules/forms/color-picker.controller.js"></script>
     <script src="modules/forms/filestyle.directive.js"></script>
     <script src="modules/forms/form-imgcrop.controller.js"></script>

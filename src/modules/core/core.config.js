@@ -3,6 +3,13 @@
 
     angular
         .module('app.core')
+        // version of this seed app is compatible with angularFire 1.0.0
+        // see tags for other versions: https://github.com/firebase/angularFire-seed/tags
+        .constant('version', '1.0.0')
+        // where to redirect users if they need to authenticate (see security.js)
+        .constant('loginRedirectPath', '/page/login')
+        // your Firebase data URL goes here, no trailing slash
+        .constant('FBURL', 'https://flickering-heat-1087.firebaseio.com')
         .config(coreConfig);
 
     coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$animateProvider'];

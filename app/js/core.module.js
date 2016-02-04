@@ -17,6 +17,9 @@
             'tmh.dynamicLocale',
             'ui.utils',
             'ngAria',
-            'ngMessages'
+            'ngMessages',
+            'firebase',
+            //'firebase.utils',
+            //'firebase.auth'
         ]);
 })();

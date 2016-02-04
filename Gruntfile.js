@@ -79,7 +79,8 @@ module.exports = function(grunt) {
             },
             html: {
                 files: [
-                    '<%= yeoman.src %>/modules/**/{,*/}*.html'
+                    '<%= yeoman.src %>/pages/**',
+                    '<%= yeoman.src %>/views/**'
                 ],
                 tasks: ['newer:copy:debug', 'newer:copy:dist'],
                 options: {
