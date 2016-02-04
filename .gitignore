@@ -1,0 +1,14 @@
+dist
+bower_components
+node_modules
+.tmp
+tmp
+.idea/
+.strong-pm
+.sass-cache
+.vagrant
+.cache
+.config
+.npm
+.bak
+npm-debug.log

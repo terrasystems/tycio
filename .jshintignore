@@ -1,0 +1,7 @@
+/src/js/highcharts-custom.js
+/src/js/rome.standalone.js
+/bower_components/
+/node_modules/
+/Gruntfile.js
+/tests/
+/dist/

@@ -1,0 +1,55 @@
+{
+  "name": "Angle",
+  "version": "0.0.0",
+  "description": "Angle - Bootstrap Admin App + AngularJS",
+  "author": "TerraSystems LTD, EU",
+  "main": "app/app.js",
+  "scripts": {
+    "debug": "bower install --allow-root --force-latest && grunt debug",
+    "build": "bower install --allow-root --force-latest && grunt build"
+  },
+  "keywords": [],
+  "license": "FREE",
+  "config": {
+    "unsafe-perm": true
+  },
+  "dependencies": {
+    "bower": "^1.7.2",
+    "connect-livereload": "^0.5.4",
+    "decompress-zip": "^0.2.0",
+    "grunt": "^0.4.5",
+    "grunt-angular-templates": "^1.0.1",
+    "grunt-bower-task": "^0.4.0",
+    "grunt-bowercopy": "^1.2.4",
+    "grunt-cli": "^0.1.13",
+    "grunt-connect-proxy": "^0.2.0",
+    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-connect": "^0.11.2",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-jshint": "^0.12.0",
+    "grunt-contrib-uglify": "^0.11.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-filerev": "^2.3.1",
+    "grunt-include-source": "^0.7.1",
+    "grunt-init": "^0.3.2",
+    "grunt-newer": "^1.1.1",
+    "grunt-ng-annotate": "^1.0.1",
+    "grunt-open": "^0.2.3",
+    "grunt-replace": "^0.11.0",
+    "grunt-translate-compile": "github:stefan-dimitrov/translate-compile#single_file_per_language",
+    "grunt-usemin": "^3.1.1",
+    "grunt-version-copy-bower-components": "^0.1.11",
+    "grunt-wiredep": "^2.0.0",
+    "http-proxy": "^1.12.0",
+    "jshint": "^2.9.1",
+    "load-grunt-config": "^0.19.1",
+    "load-grunt-tasks": "^3.4.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.8.5",
+    "jshint-stylish": "^2.1.0",
+    "shelljs": "^0.5.3"
+  }
+}

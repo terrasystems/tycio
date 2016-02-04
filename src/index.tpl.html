@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="angle" id="html" block-ui="main">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <title ng-bind="::pageTitle()">Angle - Angular Bootstrap Admin Template</title>
+    <link rel="shortcut icon" href="images/favicon2.ico" type="image/x-icon">
+    <!-- Themes-->
+    <link rel="stylesheet" ng-href="{{app.layout.theme}}" ng-if="app.layout.theme">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css styles/main.css -->
+    <!-- include: "type": "css", "files": "css/*.css" -->
+    <!-- endbuild -->
+    <!-- build:js vendor.js -->
+    <!-- bower:js -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js app.js -->
+    <!-- JS -->
+    <!-- include: "type": "js", "files": "js/*.js" -->
+    <!-- MODULES -->
+    <!-- include: "type": "js", "files": "modules/**/*.js" -->
+    <!-- endbuild -->
+    <!-- The Web Font Loader https://github.com/typekit/webfontloader -->
+    <script>
+    // WebFont.load({
+    //     google: {
+    //         families: ['Ubuntu:300,400,500,700:cyrillic,latin']
+    //     },
+    //     timeout: 1000
+    // });
+    </script>
+</head>
+<!-- Angular app -->
+
+<body ng-class="{ 'layout-fixed' : app.layout.isFixed, 'aside-collapsed' : app.layout.isCollapsed, 'layout-boxed' : app.layout.isBoxed, 'layout-fs': app.useFullLayout, 'hidden-footer': app.hiddenFooter, 'layout-h': app.layout.horizontal, 'aside-float': app.layout.isFloat, 'offsidebar-open': app.offsidebarOpen, 'aside-toggled': app.asideToggled}">
+    <div preloader></div>
+    <div ui-view="" autoscroll="false" class="wrapper"></div>
+</body>
+
+</html>
