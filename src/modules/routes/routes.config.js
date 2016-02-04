@@ -13,7 +13,7 @@
 
     routesConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteHelpersProvider'];
     function routesConfig($stateProvider, $locationProvider, $urlRouterProvider, helper){
-        
+
         // Set the following to true to enable the HTML5 Mode
         // You may have to set <base> tag in index and a routing configuration in your server
         $locationProvider.html5Mode(false);
@@ -21,9 +21,9 @@
         // defaults to dashboard
         $urlRouterProvider.otherwise('/app/welcome');
 
-        // 
+        //
         // Application Routes
-        // -----------------------------------   
+        // -----------------------------------
         $stateProvider
           .state('app', {
               url: '/app',
@@ -523,7 +523,7 @@
           // -----------------------------------
           .state('page', {
               url: '/page',
-              templateUrl: 'app/pages/page.html',
+              templateUrl: 'pages/page.html',
               resolve: helper.resolveFor('modernizr', 'icons'),
               controller: ['$rootScope', function($rootScope) {
                   $rootScope.app.layout.isBoxed = false;
@@ -532,27 +532,27 @@
           .state('page.login', {
               url: '/login',
               title: 'Login',
-              templateUrl: 'app/pages/login.html'
+              templateUrl: 'pages/login.html'
           })
           .state('page.register', {
               url: '/register',
               title: 'Register',
-              templateUrl: 'app/pages/register.html'
+              templateUrl: 'pages/register.html'
           })
           .state('page.recover', {
               url: '/recover',
               title: 'Recover',
-              templateUrl: 'app/pages/recover.html'
+              templateUrl: 'pages/recover.html'
           })
           .state('page.lock', {
               url: '/lock',
               title: 'Lock',
-              templateUrl: 'app/pages/lock.html'
+              templateUrl: 'pages/lock.html'
           })
           .state('page.404', {
               url: '/404',
               title: 'Not Found',
-              templateUrl: 'app/pages/404.html'
+              templateUrl: 'pages/404.html'
           })
           //
           // Horizontal layout
@@ -572,8 +572,8 @@
               resolve: helper.resolveFor('flot-chart','flot-chart-plugins')
           })
           //
-          // Material 
-          // ----------------------------------- 
+          // Material
+          // -----------------------------------
           .state('app.cards', {
             url: '/cards',
             title: 'Material Cards',
@@ -614,8 +614,8 @@
             url: '/ngmaterial',
             title: 'ngMaterial',
             templateUrl: helper.basepath( 'material.ngmaterial.html' )
-          })    
-          // 
+          })
+          //
           // CUSTOM RESOLVES
           //   Add your own resolves properties
           //   following this object extend

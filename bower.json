@@ -36,7 +36,7 @@
     "angular-animate": "1.4.7",
     "angular-ui-utils": "3.0.0",
     "angularjs-toaster": "0.4.16",
-    "flatdoc": "0.9.0",
+
     "fontawesome": "4.4.0",
     "oclazyload": "1.0.8",
     "screenfull": "2.0.0",
@@ -103,7 +103,6 @@
     "angular-bootstrap-tour": "0.3.3",
 
     "angular-knob": "~0.0.2",
-    "jquery.easy-pie-chart": "~2.1.6",
     "angular-bootstrap-colorpicker": "~3.0.18",
     "matchMedia": "matchmedia#~0.2.0",
     "load-google-maps": "https://gist.github.com/8613939.git",
@@ -119,5 +118,7 @@
     "angular-ui-utils": "3.0.0",
     "seiyria-bootstrap-slider": "5.2.6",
     "jquery": "2.1.4"
+  },
+  "overrides": {
   }
 }
