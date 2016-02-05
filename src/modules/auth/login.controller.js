@@ -1,7 +1,8 @@
 "use strict";
 angular.module('app.core')
 
-.controller('LoginController', ['$scope', '$state', 'Auth', '$location', 'fbutil', '$log', function($scope, $state, Auth, $location, fbutil, $log) {
+.controller('LoginController', ['$scope', '$state', 'Auth', '$location', 'fbutil', '$log', '$rootScope',
+            function($scope, $state, Auth, $location, fbutil, $log, $rootScope) {
     $scope.account = {
         email: null,
         password: null
@@ -18,6 +19,7 @@ angular.module('app.core')
                 rememberMe: true
             })
             .then(function(user) {
+                $rootScope.user = user;
                 $state.go('app.dashboard');
             }, function(err) {
                 $scope.authMsg = errMessage(err);
@@ -28,8 +30,8 @@ angular.module('app.core')
     $scope.createAccount = function() {
         $scope.authMsg = null;
         if (assertValidAccountProps()) {
-            var email = $scope.email;
-            var pass = $scope.pass;
+            var email = $scope.account.email;
+            var pass = $scope.account.password;
             // create user credentials in Firebase auth system
             Auth.$createUser({
                     email: email,
@@ -45,6 +47,7 @@ angular.module('app.core')
                 .then(function(user) {
                     // create a user profile in our data store
                     var ref = fbutil.ref('users', user.uid);
+                    $rootScope.user = user;
                     return fbutil.handler(function(cb) {
                         ref.set({
                             email: email,
@@ -68,18 +71,22 @@ angular.module('app.core')
         // }
         //profile.$destroy();
         Auth.$unauth();
+        $rootScope.user = null;
         $state.go('page.login');
     };
 
     function assertValidAccountProps() {
-        if (!$scope.email) {
-            $scope.err = 'Please enter an email address';
-        } else if (!$scope.pass || !$scope.confirm) {
-            $scope.err = 'Please enter a password';
-        } else if ($scope.createMode && $scope.pass !== $scope.confirm) {
-            $scope.err = 'Passwords do not match';
+        if (!$scope.account.email) {
+            $scope.authMsg = 'Please enter an email address';
+            $log.error($scope.authMsg);
+        } else if (!$scope.account.password || !$scope.account.account_password_confirm) {
+            $scope.authMsg = 'Please enter a password';
+            $log.error($scope.authMsg);
+        } else if ($scope.account.password !== $scope.account.account_password_confirm) {
+            $scope.authMsg = 'Passwords do not match';
+            $log.error($scope.authMsg);
         }
-        return !$scope.err;
+        return !$scope.authMsg;
     }
 
     function errMessage(err) {
