@@ -8,10 +8,10 @@
 
     angular
         .module('app.pages')
-        .controller('RegisterFormController', RegisterFormController);
+        .controller('RegisterController', RegisterController);
 
-    RegisterFormController.$inject = ['$http', '$state'];
-    function RegisterFormController($http, $state) {
+    RegisterController.$inject = ['$http', '$state'];
+    function RegisterController($http, $state) {
         var vm = this;
 
         activate();
