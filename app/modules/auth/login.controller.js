@@ -13,18 +13,18 @@ angular.module('app.core')
     $scope.login = function() {
         $scope.err = null;
         Auth.$authWithPassword({
-                email: $scope.account.email,
-                password: $scope.account.password
-            }, {
-                rememberMe: true
-            })
-            .then(function(user) {
-                $rootScope.user = user;
-                $state.go('app.dashboard');
-            }, function(err) {
-                $scope.authMsg = errMessage(err);
-                $log.error(err);
-            });
+            email: $scope.account.email,
+            password: $scope.account.password
+        }, {
+            rememberMe: true
+        })
+        .then(function(user) {
+           $rootScope.userObj = user;
+           $state.go('app.dashboard');
+        }, function(err) {
+           $scope.authMsg = errMessage(err);
+           $log.error(err);
+        });
     };
 
     $scope.createAccount = function() {
@@ -47,7 +47,7 @@ angular.module('app.core')
                 .then(function(user) {
                     // create a user profile in our data store
                     var ref = fbutil.ref('users', user.uid);
-                    $rootScope.user = user;
+                    $rootScope.userObj = user;
                     return fbutil.handler(function(cb) {
                         ref.set({
                             email: email,
@@ -66,12 +66,8 @@ angular.module('app.core')
 
     // expose logout function to scope
     $scope.logout = function() {
-        // if (unbind) {
-        //     unbind();
-        // }
-        //profile.$destroy();
         Auth.$unauth();
-        $rootScope.user = null;
+        $rootScope.userObj = undefined;
         $state.go('page.login');
     };
 

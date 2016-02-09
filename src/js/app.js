@@ -41,7 +41,8 @@
             'app.extras',
             'app.mailbox',
             'app.utils',
-            'app.material'
+            'app.material',
+            'firebase'
         ]);
 })();
 
