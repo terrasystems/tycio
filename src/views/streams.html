@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            <div class="panel panel-default" ng-repeat="item in streams track by $index">
+            <div class="panel panel-default" ng-repeat="item in streams track by $index" ng-click="getCollections($index)">
 
                 <div class="panel-heading">
                     <div class="pull-right">

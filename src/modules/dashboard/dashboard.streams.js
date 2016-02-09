@@ -10,6 +10,10 @@ angular.module('app.core')
                 return;
             }
 
+            $scope.getCollections = function(i) {
+                console.log('getCollections..['+i+']');
+            };
+
             //ref.set({
             //    name: "xHello World!",
             //    email: "Firebase@org.ua",
