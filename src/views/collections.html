@@ -1,29 +1,85 @@
 <h2>COLLECTIONS</h2>
 <div ng-controller="CollectionsController">
 
-        <div>
-            <button type="button" ng-click="editCollections(-1)" class="btn btn-labeled btn-success">
-                <span class="btn-label fa fa-plus"></span>
-                Add
-            </button>
-        </div>
+    <div>
+        <button type="button" ng-click="editCollections(-1)" class="btn btn-labeled btn-success">
+            <span class="btn-label fa fa-plus"></span>
+            Add
+        </button>
+    </div>
 
     <!--{{collections | json}}-->
 
-        <div class="row">
-            <div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
 
-                <uib-accordion close-others="false">
-                    <uib-accordion-group  ng-repeat="item in collections" is-open="false">
-                        <uib-accordion-heading>
-                            {{item.Title}}
-                            <i class="pull-right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
-                        </uib-accordion-heading>
-                        <p>{{item.IDs}}</p>
-                    </uib-accordion-group>
-                </uib-accordion>
+            <uib-accordion close-others="false">
+                <uib-accordion-group ng-repeat="item in collections" is-open="false">
+                    <uib-accordion-heading>
+                        {{item.title}}
+                        <i class="pull-right" ng-class="{'fa fa-chevron-up': isopen, 'fa fa-chevron-left': !isopen}"></i>
+                        <i class="pull-right" ng-class="{'fa fa-remove': true}" ng-click="deleteCollection($index)"></i>
+                    </uib-accordion-heading>
+                    <p>{{item.IDs}}</p>
 
-            </div>
+                    <!--streams-->
+
+                    <div class="panel panel-default"
+                         ng-repeat="itemS in streams[$parent.$parent.$index] track by $index" ng-click="getCollections($index)">
+
+                        <div class="panel-heading">
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-success" ng-click="editStream($index)" uib-tooltip="Edit">
+                                    <em class="fa fa-edit"></em>
+                                </a>
+                                <a href="#" class="btn btn-danger" ng-click="deleteStream($index)"
+                                   uib-tooltip="Close Panel">
+                                    <em class="fa fa-remove"></em>
+                                </a>
+                            </div>
+                            <h4>Title: {{itemS.title}}</h4>
+                        </div>
+                        <div class="panel-body">
+                            <p><label class="col-sm-4 control-label">Title: </label>{{itemS.title}}</p>
+                            <p><label class="col-sm-4 control-label">Host: </label>{{itemS.host}}</p>
+                            <p><label class="col-sm-4 control-label">API Key: </label>{{itemS.apikey}}</p>
+                            <p><label class="col-sm-4 control-label">Field: </label>{{itemS.field}}</p>
+                            <p><label class="col-sm-4 control-label">Description: </label>{{itemS.description}}</p>
+                            <p><label class="col-sm-4 control-label">Time:</label>{{itemS.time}}</p>
+                        </div>
+                    </div>
+
+                    <!--streams-->
+
+                </uib-accordion-group>
+            </uib-accordion>
+
         </div>
-
     </div>
+
+
+    <script type="text/ng-template" id="editCollection.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit collection record</h3>
+        </div>
+        <div class="modal-body" ng-form name="collectionEditForm" novalidate>
+
+            <fieldset>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Title</span>
+                        <input type="text" placeholder="Title" class="form-control" ng-model="collectionForm.title">
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+
+
+</div>

@@ -9,7 +9,7 @@
         // where to redirect users if they need to authenticate (see security.js)
         .constant('loginRedirectPath', '/page/login')
         // your Firebase data URL goes here, no trailing slash
-        .constant('FBURL', 'https://intense-heat-2780.firebaseio.com')
+        .constant('FBURL', 'https://everythingio.firebaseio.com')  //intense-heat-2780.firebaseio.com
         .config(coreConfig);
 
     coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$animateProvider'];

@@ -42,7 +42,7 @@ angular.module('app.core')
             $scope.streams = $firebaseArray(ref.child('users').child($rootScope.userObj.uid).child('streams'));
 
             $scope.deleteStream = function (index) {
-                if (index >= 0 && angular.isArray($scope.streams) && index <= $scope.streams.length) {
+                if (index >= 0 && _.isArray($scope.streams) && index <= $scope.streams.length) {
                    $scope.streams.$remove(index);
                 }
             };

@@ -42,7 +42,8 @@
             'app.mailbox',
             'app.utils',
             'app.material',
-            'firebase'
+            'firebase',
+            'underscore'
         ]);
 })();
 
