@@ -121,13 +121,15 @@
             .state('app.streams', {
                 url: '/streams',
                 title: 'Streams',
-                templateUrl: helper.basepath('streams.html')
+                templateUrl: helper.basepath('streams.html'),
+                resolve: helper.resolveFor('oitozero.ngSweetAlert')
                 //  , resolve: helper.resolveFor('flatdoc')
             })
             .state('app.collections', {
                 url: '/collections',
                 title: 'Collections',
-                templateUrl: helper.basepath('collections.html')
+                templateUrl: helper.basepath('collections.html'),
+                resolve: helper.resolveFor('oitozero.ngSweetAlert')
                 //  , resolve: helper.resolveFor('flatdoc')
             })
 

@@ -43,7 +43,8 @@
             'app.utils',
             'app.material',
             'firebase',
-            'underscore'
+            'underscore',
+            'ui.select'
         ]);
 })();
 

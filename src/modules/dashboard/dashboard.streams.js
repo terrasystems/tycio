@@ -2,8 +2,8 @@
 
 angular.module('app.core')
 
-    .controller('StreamsController', ['$scope', '$rootScope', '$state', 'fbutil', '$uibModal', '$log', '$firebaseArray', 'FBURL', '$firebaseObject',
-        function ($scope, $rootScope, $state, fbutil, $uibModal, $log, $firebaseArray, FBURL, $firebaseObject) {
+    .controller('StreamsController', ['$scope', '$rootScope', '$state', 'fbutil', '$uibModal', '$log', '$firebaseArray', 'FBURL', '$firebaseObject', 'SweetAlert',
+        function ($scope, $rootScope, $state, fbutil, $uibModal, $log, $firebaseArray, FBURL, $firebaseObject, SweetAlert) {
 
             if (!$rootScope.userObj) {
                 $state.go('page.login');
@@ -42,9 +42,21 @@ angular.module('app.core')
             $scope.streams = $firebaseArray(ref.child('users').child($rootScope.userObj.uid).child('streams'));
 
             $scope.deleteStream = function (index) {
-                if (index >= 0 && _.isArray($scope.streams) && index <= $scope.streams.length) {
-                   $scope.streams.$remove(index);
-                }
+                SweetAlert.swal({
+                    title: 'Are you sure?',
+                    text: 'Your will not be able to recover this stream!',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes, delete it!',
+                    closeOnConfirm: true
+                },  function(isConfirm){
+                    if (isConfirm) {
+                        if (index >= 0 && _.isArray($scope.streams) && index <= $scope.streams.length) {
+                            $scope.streams.$remove(index);
+                        }
+                    }
+                });
             };
 
             $scope.editStream = function (index) {

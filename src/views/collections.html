@@ -20,20 +20,31 @@
                         <i class="pull-right" ng-class="{'fa fa-chevron-up': isopen, 'fa fa-chevron-left': !isopen}"></i>
                         <i class="pull-right" ng-class="{'fa fa-remove': true}" ng-click="deleteCollection($index)"></i>
                     </uib-accordion-heading>
-                    <p>{{item.IDs}}</p>
-
+                    <p>Add stream into collection</p>
                     <!--streams-->
+
+                    <!--add steram-->
+                    <div>
+                        <ui-select ng-model="collections.addStream" theme="bootstrap" ng-disabled="false" on-select="addStream($index, $select.selected)" append-to-body="true">
+                            <ui-select-match placeholder="Select stream for add ...">{{$select.selected.name}}</ui-select-match>
+                            <!-- addStream($index) -->
+                            <ui-select-choices repeat="itemA in streamsMain | propsFilter: {title: $select.search} track by itemA.$id">
+                                <div ng-bind-html="itemA.title | highlight: $select.search"></div>
+                                <small>Title: {{itemA.host}} </small>
+                            </ui-select-choices>
+                        </ui-select>
+                        <p></p>
+                    </div>
+
+                    <!--/add stream-->
 
                     <div class="panel panel-default"
                          ng-repeat="itemS in streams[$parent.$parent.$index] track by $index" ng-click="getCollections($index)">
 
                         <div class="panel-heading">
                             <div class="pull-right">
-                                <a href="#" class="btn btn-success" ng-click="editStream($index)" uib-tooltip="Edit">
-                                    <em class="fa fa-edit"></em>
-                                </a>
-                                <a href="#" class="btn btn-danger" ng-click="deleteStream($index)"
-                                   uib-tooltip="Close Panel">
+                                <a href="#" class="btn btn-danger" ng-click="deleteStream($parent.$index, $index)"
+                                   uib-tooltip="Close Stream">
                                     <em class="fa fa-remove"></em>
                                 </a>
                             </div>
@@ -46,10 +57,14 @@
                             <p><label class="col-sm-4 control-label">Field: </label>{{itemS.field}}</p>
                             <p><label class="col-sm-4 control-label">Description: </label>{{itemS.description}}</p>
                             <p><label class="col-sm-4 control-label">Time:</label>{{itemS.time}}</p>
+                            <h4>Line Chart</h4>
+                            <div>
+                                <canvas linechart="" options="lineOptions" data="lineData" height="120" responsive="true"></canvas>
+                            </div>
                         </div>
                     </div>
 
-                    <!--streams-->
+                    <!--/streams-->
 
                 </uib-accordion-group>
             </uib-accordion>
