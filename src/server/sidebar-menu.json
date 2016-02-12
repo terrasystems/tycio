@@ -29,18 +29,5 @@
     "sref": "app.prof",
     "icon": "icon-graduation",
     "translate": "sidebar.nav.PROF"
-  },  
-  {
-    "text": "Chart",
-    "sref": "#",
-    "icon": "icon-graph",
-    "submenu": [
-      { "text": "Flot",   "sref": "app.chart-flot", "translate": "sidebar.nav.chart.FLOT" },
-      { "text": "Chart JS", "sref": "app.chart-js" },
-      { "text": "Rickshaw", "sref": "app.chart-rickshaw" },
-      { "text": "MorrisJS", "sref": "app.chart-morris" },
-      { "text": "Chartist", "sref": "app.chart-chartist" }
-    ],
-    "translate": "sidebar.nav.chart.CHART"
   }
 ]

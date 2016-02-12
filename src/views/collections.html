@@ -51,15 +51,15 @@
                             <h4>Title: {{itemS.title}}</h4>
                         </div>
                         <div class="panel-body">
-                            <p><label class="col-sm-4 control-label">Title: </label>{{itemS.title}}</p>
+                            <!--<p><label class="col-sm-4 control-label">Title: </label>{{itemS.title}}</p>-->
                             <p><label class="col-sm-4 control-label">Host: </label>{{itemS.host}}</p>
-                            <p><label class="col-sm-4 control-label">API Key: </label>{{itemS.apikey}}</p>
+                            <!--<p><label class="col-sm-4 control-label">API Key: </label>{{itemS.apikey}}</p>-->
                             <p><label class="col-sm-4 control-label">Field: </label>{{itemS.field}}</p>
-                            <p><label class="col-sm-4 control-label">Description: </label>{{itemS.description}}</p>
+                            <!--<p><label class="col-sm-4 control-label">Description: </label>{{itemS.description}}</p>-->
                             <p><label class="col-sm-4 control-label">Time:</label>{{itemS.time}}</p>
                             <h4>Line Chart</h4>
                             <div>
-                                <canvas linechart="" options="lineOptions" data="lineData" height="120" responsive="true"></canvas>
+                                <canvas linechart="" options="itemS.lineOptions" data="itemS.lineData" height="120" responsive="true"></canvas>
                             </div>
                         </div>
                     </div>

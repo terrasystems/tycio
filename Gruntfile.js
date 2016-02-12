@@ -354,4 +354,11 @@ module.exports = function(grunt) {
         'connect:livereload',
         'watch'
     ]);
+    grunt.registerTask('debug.Proxy', [
+        'includeSource:debug',
+        'wiredep:debug',
+        'copy:dist',
+        'copy:debug'
+    ]);
+
 };
