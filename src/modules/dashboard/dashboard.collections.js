@@ -2,8 +2,8 @@
 
 angular.module('app.core')
 
-    .controller('CollectionsController', ['$scope', 'Auth', 'fbutil', '$state', '$rootScope', '$firebaseArray', 'FBURL', '$uibModal', 'SweetAlert', '$http','$q',
-        function ($scope, Auth, fbutil, $state, $rootScope, $firebaseArray, FBURL, $uibModal, SweetAlert, $http, $q) {
+    .controller('CollectionsController', ['$scope', 'Auth', 'fbutil', '$state', '$rootScope', '$firebaseArray', 'FBURL', '$uibModal', 'SweetAlert', '$http', '$q', '$interval',
+        function ($scope, Auth, fbutil, $state, $rootScope, $firebaseArray, FBURL, $uibModal, SweetAlert, $http, $q, $interval) {
 
             if (!$rootScope.userObj) {
                 $state.go('page.login');
@@ -61,7 +61,9 @@ angular.module('app.core')
 
                 arr.$loaded()
                     .then(function (data) {
-                        getStreams(arr);
+                        getStreams(arr).then(function (result) {
+                            $scope.streams = result;
+                        });
                     })
                     .catch(function (error) {
                         console.error("Error:", error);
@@ -71,36 +73,35 @@ angular.module('app.core')
 
 
             function getStreams(collections) {
+                var deferred = $q.defer();
                 var arr = [], IDs = [];
-                console.log('collection(s) : ' + collections.length);
-
                 if (collections.length > 0) {
-                    var ref = new Firebase(FBURL);
-                    var streams = $firebaseArray(ref.child('users').child($rootScope.userObj.uid).child('streams'));
-
-                    streams.$loaded()
-                        .then(function (data) {
-                            collections.forEach(function (collection, index) {
-                                arr[index] = [];
-                                if (('IDs' in collection) && (_.isArray(collection.IDs))) {
-                                    IDs = collection.IDs;
-                                    IDs.forEach(function (id, index2) {
-                                        var x = angular.copy(data.$getRecord(id));
-                                        x.lineOptions = $scope.lineOptions;
-                                        getPointsStream(x).then(function (result) {
-                                            x.lineData = result;
-                                        });
-                                        arr[index].push(x);
-                                    });
+                    collections.forEach(function (collection, index) {
+                        arr[index] = [];
+                        if (('IDs' in collection) && (_.isArray(collection.IDs))) {
+                            IDs = collection.IDs;
+                            IDs.forEach(function (id, index2) {
+                                var x = angular.copy($scope.streamsMain.$getRecord(id));
+                                x.lineOptions = $scope.lineOptions;
+                                if (isNumeric(x.time)) {
+                                    x.interval = $interval(function () {
+                                        console.log('$interval ' + x.title);
+                                        refreshPointsStream(index, index2);
+                                    }, x.time * 1000);
                                 }
+                                getPointsStream(x).then(function (result) {
+                                    x.lineData = result;
+                                    arr[index].push(x);
+                                });
                             });
-                            $scope.streams = arr;
-                            //$scope.streams[0][0].$interval(factory($scope.streams[0][0]));
-                        })
-                        .catch(function (error) {
-                            console.error("Error:", error);
-                        });
+                        }
+                    });
+                    deferred.resolve(arr);
+                } else {
+                    deferred.reject(false);
                 }
+                ;
+                return deferred.promise;
             };
 
 
@@ -111,20 +112,18 @@ angular.module('app.core')
 
                 var req = {
                     method: 'GET',
-                    url: 'api/'+objStream.host,
+                    url: 'api/' + objStream.host,
                     headers: {
                         'authorization': objStream.apikey
                     }
                 };
                 $http(req).then(function successCallback(response) {
-                    console.log(response);
-                    if  (_.isArray(response.data)) {
-                        var data = response.data;
+                    if (_.isArray(response.data)) {
                         var f = objStream.field, i = 0;
                         objStream.lineData = {};
                         objStream.lineData.datasets = [];
                         objStream.lineData.datasets[0] = {
-                            label: 'My First dataset',
+                            label: '',
                             fillColor: 'rgba(114,102,186,0.2)',
                             strokeColor: 'rgba(114,102,186,1)',
                             pointColor: 'rgba(114,102,186,1)',
@@ -135,10 +134,9 @@ angular.module('app.core')
                         };
                         objStream.lineData.labels = [];
 
-                        data.forEach(function (item, index) {
+                        response.data.forEach(function (item, index) {
                             if ((f in item) && (isNumeric(item[f]))) {
-                                console.log('i = ' + i + ' val=' + item[f]);
-                                objStream.lineData.datasets[0].data.push(item[f]); // cumulative/
+                                objStream.lineData.datasets[0].data.push(item[f]);
                                 objStream.lineData.labels.push(i);
                                 i = i + 1;
                             }
@@ -146,16 +144,47 @@ angular.module('app.core')
                                 console.log('Warn: record is not field or not numeric! ' + item);
                             }
                         });
-                        data = [];
-                     deferred.resolve(objStream.lineData);
-
+                        deferred.resolve(objStream.lineData);
                     }
-                    else deferred.reject(false);
+                    else
+                        deferred.reject(false);
                 }, function errorCallback(response) {
                     console.log(response);
                     deferred.reject(response);
                 });
-                return    deferred.promise;
+                return deferred.promise;
+            };
+
+
+            function refreshPointsStream(idxCollection, idxStream) {
+                var data = [], labels = [];
+                if ((idxCollection < $scope.streams.length) && (idxStream < $scope.streams[idxCollection].length)) {
+                    var itemS = $scope.streams[idxCollection][idxStream];
+                    $http({
+                        method: 'GET',
+                        url: 'api/' + itemS.host,
+                        headers: {'authorization': itemS.apikey}
+                    }).then(
+                        function successCallback(response) {
+                            var f = itemS.field, i = 0;
+                            if (_.isArray(response.data)) {
+                                response.data.forEach(function (item, index) {
+                                    if ((f in item) && (isNumeric(item[f]))) {
+                                        data.push(item[f]);
+                                        labels.push(i);
+                                        i = i + 1;
+                                    }
+                                    else {
+                                        console.log('Warn: record is not field or not numeric! ' + item);
+                                    }
+                                });
+                            };
+                        }, function errorCallback(response) {
+                            console.log(response);
+                        });
+                    $scope.streams[idxCollection][idxStream].lineData.datasets[0].data = data;
+                    $scope.streams[idxCollection][idxStream].lineData.labels = labels;
+                }
             };
 
 
@@ -174,7 +203,9 @@ angular.module('app.core')
                         if (index >= 0 && _.isArray($scope.collections) && index <= $scope.collections.length) {
                             $scope.collections.$remove(index)
                                 .then(function (data) {
-                                    getStreams($scope.collections);
+                                    getStreams($scope.collections).then(function (result) {
+                                        $scope.streams = result;
+                                    });
                                 })
                                 .catch(function (error) {
                                     console.error("Error:", error);
@@ -233,7 +264,9 @@ angular.module('app.core')
                         $scope.collections[indexRoot].IDs.splice(index, 1);
                         $scope.collections.$save(indexRoot)
                             .then(function (data) {
-                                getStreams($scope.collections);
+                                getStreams($scope.collections).then(function (result) {
+                                    $scope.streams = result;
+                                });
                             })
                             .catch(function (error) {
                                 console.error("Error:", error);
@@ -252,7 +285,9 @@ angular.module('app.core')
                 $scope.collections[indexRoot].IDs.push(obj.$id);
                 $scope.collections.$save(indexRoot)
                     .then(function (data) {
-                        getStreams($scope.collections);
+                        getStreams($scope.collections).then(function (result) {
+                            $scope.streams = result;
+                        });
                     })
                     .catch(function (error) {
                         console.error("Error:", error);
@@ -260,24 +295,27 @@ angular.module('app.core')
             };
 
 
+            $scope.$on('$destroy', function () {
+                    if ($scope.streams.length > 0) {
+                        var arr = $scope.streams;
+                        arr.forEach(function (stream, index) {
+                            stream.forEach(function (item, index) {
+                                $interval.cancel(item.interval);
+                                item.interval = undefined;
+                            });
+                        });
+
+                    }
+                }
+            );
+
+
             $scope.isAdd = true;
 
         }])
 
 
-.factory('testFactory', function(){
-        return {
-            sayHello: function(text){
-                return "Factory says \"Hello " + text + "\"";
-            },
-            sayGoodbye: function(text){
-                return "Factory says \"Goodbye " + text + "\"";
-            }
-        }
-    })
-
-
-.controller('ModalInstanceCtrl2', function ($scope, $uibModalInstance, collectionForm) {
+    .controller('ModalInstanceCtrl2', function ($scope, $uibModalInstance, collectionForm) {
         $scope.collectionForm = collectionForm;
         $scope.ok = function () {
             $uibModalInstance.close($scope.collectionForm);
