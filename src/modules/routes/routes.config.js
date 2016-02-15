@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/page/login');
+        $urlRouterProvider.otherwise('/dashboard');
 
         //
         // Application Routes
@@ -154,4 +154,3 @@
     } // routesConfig
 
 })();
-

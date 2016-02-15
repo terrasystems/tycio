@@ -1,0 +1,86 @@
+<h2>STREAMS</h2>
+<div ng-controller="StreamsController">
+
+    <div>
+        <button type="button" ng-click="editStream(-1)" class="btn btn-labeled btn-success">
+            <span class="btn-label fa fa-plus"></span>
+            Add
+        </button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-default" ng-repeat="item in streams track by $index" ng-click="getCollections($index)">
+
+                <div class="panel-heading">
+                    <div class="pull-right">
+                        <a href="#" class="btn btn-success" ng-click="editStream($index)" uib-tooltip="Edit">
+                            <em class="fa fa-edit"></em>
+                        </a>
+                        <a href="#" class="btn btn-danger" ng-click="deleteStream($index)" uib-tooltip="Close Panel">
+                            <em class="fa fa-remove"></em>
+                        </a>
+                    </div>
+                    <h4>Title: {{item.title}}</h4>
+                </div>
+                <div class="panel-body">
+                    <p><label class="col-sm-4 control-label">Host: </label>{{item.host}}</p>
+
+                    <p><label class="col-sm-4 control-label">API Key: </label>{{item.apikey}}</p>
+
+                    <p><label class="col-sm-4 control-label">Field: </label>{{item.field}}</p>
+
+                    <p><label class="col-sm-4 control-label">Description: </label>{{item.description}}</p>
+
+                    <p><label class="col-sm-4 control-label">Time:</label>{{item.time}}</p>
+                    <!--{{$index}}-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="editStream.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit stream record</h3>
+        </div>
+        <div class="modal-body" ng-form name="streamEditForm" novalidate>
+
+            <fieldset>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Title</span>
+                        <input type="text" placeholder="Title" class="form-control" ng-model="streamForm.title">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Host</span>
+                        <input type="text" placeholder="Host" class="form-control" ng-model="streamForm.host">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">API key</span>
+                        <input type="text" placeholder="APIkey" class="form-control" ng-model="streamForm.apikey">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Field</span>
+                        <input type="text" placeholder="Field" class="form-control" ng-model="streamForm.field">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Descr</span>
+                        <input type="text" placeholder="Description" class="form-control" ng-model="streamForm.description">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Time</span>
+                        <input type="text" placeholder="Time" class="form-control" ng-model="streamForm.time">
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+
+</div>

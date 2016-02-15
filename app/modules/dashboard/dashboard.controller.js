@@ -8,11 +8,6 @@
     DashboardController.$inject = ['$scope', 'ChartData', '$timeout', '$rootScope', '$state'];
     function DashboardController($scope, ChartData, $timeout, $rootScope, $state) {
 
-        if  (!$rootScope.userObj) {
-            $state.go('page.login');
-            return;
-        };
-
         var vm = this;
 
         activate();

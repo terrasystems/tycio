@@ -16,7 +16,7 @@ angular.module('app.core')
             email: $scope.account.email,
             password: $scope.account.password
         }, {
-            rememberMe: true
+            rememberMe: $scope.account.remember
         })
         .then(function(user) {
            $rootScope.userObj = user;
