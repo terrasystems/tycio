@@ -5,11 +5,6 @@ angular.module('app.core')
     .controller('StreamsController', ['$scope', '$rootScope', '$state', 'fbutil', '$uibModal', '$log', '$firebaseArray', 'FBURL', '$firebaseObject', 'SweetAlert',
         function ($scope, $rootScope, $state, fbutil, $uibModal, $log, $firebaseArray, FBURL, $firebaseObject, SweetAlert) {
 
-            if (!$rootScope.userObj) {
-                $state.go('page.login');
-                return;
-            }
-
             $scope.getCollections = function(i) {
                 console.log('getCollections..['+i+']');
             };

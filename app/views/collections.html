@@ -14,7 +14,7 @@
         <div class="col-md-12">
 
             <uib-accordion close-others="false">
-                <uib-accordion-group ng-repeat="item in collections" is-open="false">
+                <uib-accordion-group ng-repeat="item in collections" is-open="true">
                     <uib-accordion-heading>
                         {{item.title}}
                         <i class="pull-right" ng-class="{'fa fa-chevron-up': isopen, 'fa fa-chevron-left': !isopen}"></i>
@@ -30,7 +30,7 @@
                             <!-- addStream($index) -->
                             <ui-select-choices repeat="itemA in streamsMain | propsFilter: {title: $select.search} track by itemA.$id">
                                 <div ng-bind-html="itemA.title | highlight: $select.search"></div>
-                                <small>Title: {{itemA.host}} </small>
+                                <small>Title: {{itemA.apiurl}} </small>
                             </ui-select-choices>
                         </ui-select>
                         <p></p>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="panel-body">
                             <!--<p><label class="col-sm-4 control-label">Title: </label>{{itemS.title}}</p>-->
-                            <p><label class="col-sm-4 control-label">Host: </label>{{itemS.host}}</p>
+                            <p><label class="col-sm-4 control-label">API url: </label>{{itemS.apiurl}}</p>
                             <!--<p><label class="col-sm-4 control-label">API Key: </label>{{itemS.apikey}}</p>-->
                             <p><label class="col-sm-4 control-label">Field: </label>{{itemS.field}}</p>
                             <!--<p><label class="col-sm-4 control-label">Description: </label>{{itemS.description}}</p>-->

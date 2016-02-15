@@ -5,11 +5,6 @@ angular.module('app.core')
     .controller('CollectionsController', ['$scope', 'Auth', 'fbutil', '$state', '$rootScope', '$firebaseArray', 'FBURL', '$uibModal', 'SweetAlert', '$http', '$q', '$interval',
         function ($scope, Auth, fbutil, $state, $rootScope, $firebaseArray, FBURL, $uibModal, SweetAlert, $http, $q, $interval) {
 
-            if (!$rootScope.userObj) {
-                $state.go('page.login');
-                return;
-            }
-
             $scope.lineData = {
                 labels: [],
                 datasets: [

@@ -5,11 +5,6 @@ angular.module('app.core')
     .controller('CollectionsController', ['$scope', 'Auth', 'fbutil', '$state', '$rootScope', '$firebaseArray', 'FBURL', '$uibModal', 'SweetAlert', '$http', '$q', '$interval',
         function ($scope, Auth, fbutil, $state, $rootScope, $firebaseArray, FBURL, $uibModal, SweetAlert, $http, $q, $interval) {
 
-            if (!$rootScope.userObj) {
-                $state.go('page.login');
-                return;
-            }
-
             $scope.lineData = {
                 labels: [],
                 datasets: [
@@ -52,29 +47,29 @@ angular.module('app.core')
             $scope.streamsMain = $firebaseArray(ref.child('users').child($rootScope.userObj.uid).child('streams'));
 
 
-            $scope.collections = getCollections();
+            getCollections();
 
 
             function getCollections() {
                 var ref = new Firebase(FBURL);
-                var arr = $firebaseArray(ref.child('users').child($rootScope.userObj.uid).child('collections'));
+                $scope.collections = $firebaseArray(ref.child('users').child($rootScope.userObj.uid).child('collections'));
 
-                arr.$loaded()
+                $scope.collections.$loaded()
                     .then(function (data) {
-                        getStreams(arr).then(function (result) {
+                        getStreams($scope.collections).then(function (result) {
                             $scope.streams = result;
                         });
                     })
                     .catch(function (error) {
                         console.error("Error:", error);
                     });
-                return arr;
             };
 
 
             function getStreams(collections) {
                 var deferred = $q.defer();
-                var arr = [], IDs = [];
+                var arr = [];
+                var IDs = [];
                 if (collections.length > 0) {
                     collections.forEach(function (collection, index) {
                         arr[index] = [];
@@ -83,16 +78,17 @@ angular.module('app.core')
                             IDs.forEach(function (id, index2) {
                                 var x = angular.copy($scope.streamsMain.$getRecord(id));
                                 x.lineOptions = $scope.lineOptions;
-                                if (isNumeric(x.time)) {
+                                if (isNumeric(x.time) ) {
                                     x.interval = $interval(function () {
-                                        console.log('$interval ' + x.title);
                                         refreshPointsStream(index, index2);
                                     }, x.time * 1000);
                                 }
+                                ////////////////////
                                 getPointsStream(x).then(function (result) {
                                     x.lineData = result;
                                     arr[index].push(x);
                                 });
+                                ////////////////////
                             });
                         }
                     });
@@ -100,7 +96,6 @@ angular.module('app.core')
                 } else {
                     deferred.reject(false);
                 }
-                ;
                 return deferred.promise;
             };
 
@@ -112,8 +107,8 @@ angular.module('app.core')
 
                 var req = {
                     method: 'GET',
-                    url: 'api/' + objStream.host,
-                    //url: 'http://thethingscloud.cloud.tyk.io/' + objStream.host,
+                    url: 'api/' + objStream.apiurl,
+                    //url: 'http://thethingscloud.cloud.tyk.io/' + objStream.apiurl,
                     headers: {
                         'authorization': objStream.apikey
                     }
@@ -141,9 +136,6 @@ angular.module('app.core')
                                 objStream.lineData.labels.push(i);
                                 i = i + 1;
                             }
-                            else {
-                                console.log('Warn: record is not field or not numeric! ' + item);
-                            }
                         });
                         deferred.resolve(objStream.lineData);
                     }
@@ -163,7 +155,8 @@ angular.module('app.core')
                     var itemS = $scope.streams[idxCollection][idxStream];
                     $http({
                         method: 'GET',
-                        url: 'api/' + itemS.host,
+                        //url: 'http://thethingscloud.cloud.tyk.io/' + itemS.apiurl,
+                        url: 'api/' + itemS.apiurl,
                         headers: {'authorization': itemS.apikey}
                     }).then(
                         function successCallback(response) {
@@ -174,9 +167,6 @@ angular.module('app.core')
                                         data.push(item[f]);
                                         labels.push(i);
                                         i = i + 1;
-                                    }
-                                    else {
-                                        console.log('Warn: record is not field or not numeric! ' + item);
                                     }
                                 });
                             };
@@ -265,6 +255,7 @@ angular.module('app.core')
                         $scope.collections[indexRoot].IDs.splice(index, 1);
                         $scope.collections.$save(indexRoot)
                             .then(function (data) {
+                                $scope.clearInterval();
                                 getStreams($scope.collections).then(function (result) {
                                     $scope.streams = result;
                                 });
@@ -286,6 +277,7 @@ angular.module('app.core')
                 $scope.collections[indexRoot].IDs.push(obj.$id);
                 $scope.collections.$save(indexRoot)
                     .then(function (data) {
+                        $scope.clearInterval();
                         getStreams($scope.collections).then(function (result) {
                             $scope.streams = result;
                         });
@@ -296,17 +288,23 @@ angular.module('app.core')
             };
 
 
-            $scope.$on('$destroy', function () {
-                    if ($scope.streams.length > 0) {
-                        var arr = $scope.streams;
-                        arr.forEach(function (stream, index) {
-                            stream.forEach(function (item, index) {
-                                $interval.cancel(item.interval);
+            $scope.clearInterval = function () {
+                if ($scope.streams.length > 0) {
+                    var arr = $scope.streams;
+                    arr.forEach(function (stream, index) {
+                        stream.forEach(function (item, index) {
+                            $interval.cancel(item.interval);
+                            if (item.interval) {
                                 item.interval = undefined;
-                            });
+                            }
                         });
+                    });
+                }
+            };
 
-                    }
+
+            $scope.$on('$destroy', function () {
+                    $scope.clearInterval();
                 }
             );
 
