@@ -283,6 +283,13 @@ module.exports = function(grunt) {
                     ],
                     dest: '<%= yeoman.dist %>'
                 }]
+            },
+            proxy: {
+                files: [{ //
+                    expand: true,
+                    src: ['bower_components/**'],
+                    dest: '<%= yeoman.dist %>'
+                }]
             }
         },
         clean: {
@@ -294,6 +301,9 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: ['<%= yeoman.dist %>', '.tmp']
+            },
+            proxy: {
+                src: ['<%= yeoman.dist %>/!(bower_components)']
             }
         },
         // replace
@@ -355,10 +365,12 @@ module.exports = function(grunt) {
         'watch'
     ]);
     grunt.registerTask('debug.Proxy', [
+        'clean:proxy',
         'includeSource:debug',
         'wiredep:debug',
         'copy:dist',
-        'copy:debug'
+        'copy:debug',
+        'copy:proxy'
     ]);
 
 };
