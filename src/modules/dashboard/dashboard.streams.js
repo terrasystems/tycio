@@ -20,7 +20,7 @@ angular.module('app.core')
             //    streams: [
             //        {
             //            title: "Cumulative",
-            //            host: "http://thethingscloud.cloud.tyk.io/cumulative/",
+            //            apiurl: "http://thethingscloud.cloud.tyk.io/cumulative/",
             //            apikey: "56999a15c962eb000100001942731a664f144c9b6c793fd16033f95a",
             //            field: "gennow",
             //            description: "gennow",
@@ -28,7 +28,7 @@ angular.module('app.core')
             //        },
             //        {
             //            title: "Loopback",
-            //            host: "http://thethingscloud.cloud.tyk.io/loopback/",
+            //            apiurl: "http://thethingscloud.cloud.tyk.io/loopback/",
             //            apikey: "56999a15c962eb000100001942731a664f144c9b6c793fd16033f95a",
             //            field: "gennow",
             //            description: "gennow",
@@ -61,7 +61,7 @@ angular.module('app.core')
 
             $scope.editStream = function (index) {
                 if (index == -1) {
-                    var oldStreamForm = {title: "", host: "", apikey: "", field: "", description: "", time: ""};
+                    var oldStreamForm = {title: "", apiurl: "", apikey: "", field: "", description: "", time: ""};
                 }
                 else {
                     var oldStreamForm = angular.copy($scope.streams[index]);
