@@ -113,6 +113,7 @@ angular.module('app.core')
                 var req = {
                     method: 'GET',
                     url: 'api/' + objStream.host,
+                    //url: 'http://thethingscloud.cloud.tyk.io/' + objStream.host,
                     headers: {
                         'authorization': objStream.apikey
                     }
