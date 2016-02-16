@@ -22,8 +22,12 @@
             //Auth
     		if (toState.name.indexOf('app')>0 && !Auth.$getAuth()) {
     			$location.path('/page/login');
-    		}
-			console.log(toState);
+    		} else {
+                $rootScope.userObj = {
+                    uid: Auth.$getAuth().uid,
+                    email: Auth.$getAuth().password.email
+                    };
+            }
 		});
 
 		// Allows to use branding color with interpolation

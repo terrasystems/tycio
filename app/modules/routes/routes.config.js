@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/dashboard');
+        $urlRouterProvider.otherwise('/app/dashboard');
 
         //
         // Application Routes
@@ -132,23 +132,6 @@
                 resolve: helper.resolveFor('oitozero.ngSweetAlert')
                 //  , resolve: helper.resolveFor('flatdoc')
             })
-
-          //
-          // CUSTOM RESOLVES
-          //   Add your own resolves properties
-          //   following this object extend
-          //   method
-          // -----------------------------------
-          // .state('app.someroute', {
-          //   url: '/some_url',
-          //   templateUrl: 'path_to_template.html',
-          //   controller: 'someController',
-          //   resolve: angular.extend(
-          //     helper.resolveFor(), {
-          //     // YOUR RESOLVES GO HERE
-          //     }
-          //   )
-          // })
           ;
 
     } // routesConfig

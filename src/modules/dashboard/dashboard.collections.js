@@ -1,5 +1,6 @@
 'use strict';
-
+/* jslint -W098, -W116 */
+/*globals Firebase, _*/
 angular.module('app.core')
 
     .controller('CollectionsController', ['$scope', 'Auth', 'fbutil', '$state', '$rootScope', '$firebaseArray', 'FBURL', '$uibModal', 'SweetAlert', '$http', '$q', '$interval',
@@ -61,9 +62,9 @@ angular.module('app.core')
                         });
                     })
                     .catch(function (error) {
-                        console.error("Error:", error);
+                        console.error('Error:', error);
                     });
-            };
+            }
 
 
             function getStreams(collections) {
@@ -97,7 +98,7 @@ angular.module('app.core')
                     deferred.reject(false);
                 }
                 return deferred.promise;
-            };
+            }
 
 
             function getPointsStream(objStream) {
@@ -107,8 +108,8 @@ angular.module('app.core')
 
                 var req = {
                     method: 'GET',
-                    //url: 'api/' + objStream.apiurl,  //http://thethingscloud.cloud.tyk.io/
-                    url: objStream.apiurl,
+                    url: objStream.apiurl, // + 'api/',
+                    //url: 'http://thethingscloud.cloud.tyk.io/' + objStream.apiurl,
                     headers: {
                         'authorization': objStream.apikey
                     }
@@ -146,7 +147,7 @@ angular.module('app.core')
                     deferred.reject(response);
                 });
                 return deferred.promise;
-            };
+            }
 
 
             function refreshPointsStream(idxCollection, idxStream) {
@@ -155,8 +156,8 @@ angular.module('app.core')
                     var itemS = $scope.streams[idxCollection][idxStream];
                     $http({
                         method: 'GET',
+                        //url: 'http://thethingscloud.cloud.tyk.io/' + itemS.apiurl,
                         url: itemS.apiurl,
-                        //url: 'api/' + itemS.apiurl,
                         headers: {'authorization': itemS.apikey}
                     }).then(
                         function successCallback(response) {
@@ -169,14 +170,14 @@ angular.module('app.core')
                                         i = i + 1;
                                     }
                                 });
-                            };
+                            }
                         }, function errorCallback(response) {
                             console.log(response);
                         });
                     $scope.streams[idxCollection][idxStream].lineData.datasets[0].data = data;
                     $scope.streams[idxCollection][idxStream].lineData.labels = labels;
                 }
-            };
+            }
 
 
             $scope.deleteCollection = function (index) {
@@ -199,7 +200,7 @@ angular.module('app.core')
                                     });
                                 })
                                 .catch(function (error) {
-                                    console.error("Error:", error);
+                                    console.error('Error:', error);
                                 });
                             SweetAlert.swal('Delete - Ok!');
                         }
@@ -210,7 +211,7 @@ angular.module('app.core')
 
             $scope.editCollections = function (index) {
                 if (index == -1) {
-                    var oldCollectionForm = {title: "", IDs: []};
+                    var oldCollectionForm = {title: '', IDs: []};
                 }
                 else {
                     var oldCollectionForm = angular.copy($scope.collections[index]);
@@ -261,7 +262,7 @@ angular.module('app.core')
                                 });
                             })
                             .catch(function (error) {
-                                console.error("Error:", error);
+                                console.error('Error:', error);
                             });
                     }
                 });
@@ -283,7 +284,7 @@ angular.module('app.core')
                         });
                     })
                     .catch(function (error) {
-                        console.error("Error:", error);
+                        console.error('Error:', error);
                     });
             };
 
