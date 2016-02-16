@@ -107,8 +107,8 @@ angular.module('app.core')
 
                 var req = {
                     method: 'GET',
-                    url: 'api/' + objStream.apiurl,
-                    //url: 'http://thethingscloud.cloud.tyk.io/' + objStream.apiurl,
+                    //url: 'api/' + objStream.apiurl,  //http://thethingscloud.cloud.tyk.io/
+                    url: objStream.apiurl,
                     headers: {
                         'authorization': objStream.apikey
                     }
@@ -155,8 +155,8 @@ angular.module('app.core')
                     var itemS = $scope.streams[idxCollection][idxStream];
                     $http({
                         method: 'GET',
-                        //url: 'http://thethingscloud.cloud.tyk.io/' + itemS.apiurl,
-                        url: 'api/' + itemS.apiurl,
+                        url: itemS.apiurl,
+                        //url: 'api/' + itemS.apiurl,
                         headers: {'authorization': itemS.apikey}
                     }).then(
                         function successCallback(response) {
